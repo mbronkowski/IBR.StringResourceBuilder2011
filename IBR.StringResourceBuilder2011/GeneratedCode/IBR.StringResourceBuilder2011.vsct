@@ -100,6 +100,15 @@
         <ToolTipText>Make resource entry from selected string literal</ToolTipText>
         </Strings>
       </Button>
+      <Button guid="guidIBRStringResourceBuilder2011CommandSet" id="MakeAll" priority="0x0100">
+        <Icon guid="StringResourceAll.bmpGuid" id="StringResourceAll.bmpId" />
+        <Strings>
+          <CommandName>cmdidMakeAll</CommandName>
+          <ButtonText>Make All</ButtonText>
+          <MenuText>Make All</MenuText>
+          <ToolTipText>Make resource entry from all in list</ToolTipText>
+        </Strings>
+      </Button>
       <Button guid="guidIBRStringResourceBuilder2011CommandSet" id="Settings" priority="0x0100">
         <Icon guid="settings.bmpGuid" id="settings.bmpId" />
         <Strings>
@@ -130,6 +139,7 @@
       <Bitmap guid="ArrowRight_light.bmpGuid" href="..\Button Bitmaps\ArrowRight_light.png" usedList="ArrowRight_light.bmpId" />
       <Bitmap guid="ArrowRightEnd_light.bmpGuid" href="..\Button Bitmaps\ArrowRightEnd_light.png" usedList="ArrowRightEnd_light.bmpId" />
       <Bitmap guid="StringResource.bmpGuid" href="..\Button Bitmaps\StringResource.png" usedList="StringResource.bmpId" />
+      <Bitmap guid="StringResourceAll.bmpGuid" href="..\Button Bitmaps\StringResourceAll.png" usedList="StringResourceAll.bmpId" />
       <Bitmap guid="settings.bmpGuid" href="..\Button Bitmaps\settings.png" usedList="settings.bmpId" />
     </Bitmaps>
   </Commands>
@@ -154,6 +164,9 @@
       <Parent guid="guidIBRStringResourceBuilder2011CommandSet" id="NavigationGroup" />
     </CommandPlacement>
     <CommandPlacement guid="guidIBRStringResourceBuilder2011CommandSet" id="Make" priority="0x0100">
+      <Parent guid="guidIBRStringResourceBuilder2011CommandSet" id="MakeGroup" />
+    </CommandPlacement>
+    <CommandPlacement guid="guidIBRStringResourceBuilder2011CommandSet" id="MakeAll" priority="0x0101">
       <Parent guid="guidIBRStringResourceBuilder2011CommandSet" id="MakeGroup" />
     </CommandPlacement>
     <CommandPlacement guid="guidIBRStringResourceBuilder2011CommandSet" id="Settings" priority="0x0100">
@@ -190,6 +203,7 @@
       <IDSymbol name="Next" value="0x000E" />
       <IDSymbol name="Last" value="0x000F" />
       <IDSymbol name="Make" value="0x0010" />
+      <IDSymbol name="MakeAll" value="0x0014" />
       <IDSymbol name="Settings" value="0x0012" />
       <IDSymbol name="SRBToolbarMenu" value="0x0005" />
     </GuidSymbol>
@@ -221,7 +235,10 @@
     <GuidSymbol name="StringResource.bmpGuid" value="{a0482d87-4d3b-4bed-87e0-a5548ee069da}">
       <IDSymbol name="StringResource.bmpId" value="1" />
     </GuidSymbol>
-
+    <GuidSymbol name="StringResourceAll.bmpGuid" value="{3AEDAE2B-98A2-459A-BE7B-C24F2F0AC5CA}">
+      <IDSymbol name="StringResourceAll.bmpId" value="1" />
+    </GuidSymbol>
+    
     <GuidSymbol name="settings.bmpGuid" value="{f5b42557-0257-494d-88bf-514c5c37efea}">
       <IDSymbol name="settings.bmpId" value="1" />
     </GuidSymbol>

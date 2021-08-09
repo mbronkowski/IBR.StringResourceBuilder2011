@@ -422,7 +422,7 @@ namespace IBR.StringResourceBuilder2011.Modules
       return (resourceFilePrjItem);
     }
 
-    private void BuildAndUseResource(ProjectItem resourceFilePrjItem)
+    private void BuildAndUseResource(ProjectItem resourceFilePrjItem,StringResource resource = null)
     {
       try
       {
@@ -454,7 +454,7 @@ namespace IBR.StringResourceBuilder2011.Modules
         string name,
                value,
                comment = string.Empty;
-        StringResource stringResource = m_SelectedStringResource;// this.dataGrid1.CurrentItem as StringResource;
+        StringResource stringResource =resource ?? m_SelectedStringResource;// this.dataGrid1.CurrentItem as StringResource;
 
         name = stringResource.Name;
         value = stringResource.Text;
@@ -1071,9 +1071,9 @@ namespace IBR.StringResourceBuilder2011.Modules
       ResumeTextMove();
     }
 
-    public void SelectStringInTextDocument()
+    public void SelectStringInTextDocument( StringResource resource = null)
     {
-      StringResource stringResource = this.GetSelectedItem();
+      StringResource stringResource = resource??this.GetSelectedItem();
 
       if (stringResource == null)
         return;
@@ -1122,7 +1122,7 @@ namespace IBR.StringResourceBuilder2011.Modules
 
       m_TextDocument.Selection.MoveToLineAndOffset(location.X, location.Y + text.Length + 2, true);
 
-      m_SelectedStringResource = this.GetSelectedItem();
+      m_SelectedStringResource = resource ?? this.GetSelectedItem();
       m_SelectedGridRowIndex       = this.GetSelectedRowIndex();
 
       if ((m_Window != null) && (m_Window != m_Dte2.ActiveWindow))
@@ -1154,11 +1154,53 @@ namespace IBR.StringResourceBuilder2011.Modules
       m_LastDocumentLength = m_TextDocument.EndPoint.Line;
     }
 
+    public void BuildAllAndUseResource()
+    {
+        string msg = string.Format("Do you want to make all resources({0}) in this file?",
+            m_StringResources.Count);
+        if (MessageBox.Show(msg, "Make ALL resource", MessageBoxButton.YesNo,
+            MessageBoxImage.Question) != MessageBoxResult.Yes)
+            return;
+        
+        m_IsMakePerformed = true;
+
+        SelectCell(0, 0);
+        Application.Current.Dispatcher.Invoke(DispatcherPriority.Background,
+            new Action(delegate { }));
+        SelectStringInTextDocument();
+
+        
+        while (m_StringResources.Count > 0)
+        {
+            var startCount = m_StringResources.Count;
+            ProjectItem resourceFilePrjItem = OpenOrCreateResourceFile();
+
+            if (resourceFilePrjItem == null)
+                return;
+            SelectStringInTextDocument();
+            BuildAndUseResource(resourceFilePrjItem);
+            if (startCount == m_StringResources.Count)
+            {
+                return;
+            }
+        }
+        
+        
+
+        //SetEnabled();
+
+        //MarkStringInTextDocument();
+
+        m_LastDocumentLength = m_TextDocument.EndPoint.Line;
+    }
+
     public void SaveSettings()
     {
       SaveIgnoreStrings();
     }
 
     #endregion //Public methods --------------------------------------------------------------------
+
+    
   } //class
 } //namespace

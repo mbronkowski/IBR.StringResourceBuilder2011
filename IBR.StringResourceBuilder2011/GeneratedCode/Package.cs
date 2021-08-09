@@ -99,6 +99,10 @@ namespace IBR.StringResourceBuilder2011
         commandId = new CommandID(GuidList.guidIBRStringResourceBuilder2011CmdSet, (int)PkgCmdIDList.Make);
         menuItem = new OleMenuCommand(MakeExecuteHandler, MakeChangeHandler, MakeQueryStatusHandler, commandId);
         mcs.AddCommand(menuItem);
+        // Create the command for button MakeAll
+        commandId = new CommandID(GuidList.guidIBRStringResourceBuilder2011CmdSet, (int)PkgCmdIDList.MakeAll);
+        menuItem = new OleMenuCommand(MakeAllExecuteHandler, MakeAllChangeHandler, MakeAllQueryStatusHandler, commandId);
+        mcs.AddCommand(menuItem);
 
         // Create the command for button Settings
         commandId = new CommandID(GuidList.guidIBRStringResourceBuilder2011CmdSet, (int)PkgCmdIDList.Settings);
@@ -223,6 +227,23 @@ namespace IBR.StringResourceBuilder2011
     }
 
     protected virtual void MakeQueryStatusHandler(object sender, EventArgs e)
+    {
+    }
+
+    #endregion
+
+    #region Handlers for Button: MakeAll
+
+    protected virtual void MakeAllExecuteHandler(object sender, EventArgs e)
+    {
+        ShowMessage("MakeAll clicked!");
+    }
+
+    protected virtual void MakeAllChangeHandler(object sender, EventArgs e)
+    {
+    }
+
+    protected virtual void MakeAllQueryStatusHandler(object sender, EventArgs e)
     {
     }
 

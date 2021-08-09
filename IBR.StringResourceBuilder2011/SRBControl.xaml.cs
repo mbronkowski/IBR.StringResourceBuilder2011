@@ -125,6 +125,13 @@ namespace IBR.StringResourceBuilder2011
       set { m_MakeButton = value; }
     }
 
+    private Microsoft.VisualStudio.Shell.OleMenuCommand m_MakeAllButton;
+    public Microsoft.VisualStudio.Shell.OleMenuCommand MakeAllButton
+    {
+        get { return (m_MakeAllButton); }
+        set { m_MakeAllButton = value; }
+    }
+
     private Microsoft.VisualStudio.Shell.OleMenuCommand m_SettingsButton;
     public Microsoft.VisualStudio.Shell.OleMenuCommand SettingsButton
     {
@@ -329,6 +336,7 @@ namespace IBR.StringResourceBuilder2011
       if (m_PreviousButton != null) m_PreviousButton.Enabled = !isFirst;
       if (m_NextButton     != null) m_NextButton.Enabled     = !isLast;
       if (m_MakeButton     != null) m_MakeButton.Enabled     = !isEmpty;
+      if (m_MakeAllButton     != null) m_MakeAllButton.Enabled     = !isEmpty;
     }
 
     private void Cleanup()
@@ -639,6 +647,19 @@ namespace IBR.StringResourceBuilder2011
       }
     }
 
+    public void DoMakeAll()
+    {
+        try
+        {
+            m_IsMakeInProgress = true;
+            m_StringResourceBuilder.BuildAllAndUseResource();
+        }
+        finally
+        {
+            m_IsMakeInProgress = false;
+        }
+    }
+
     //Settings
 
     internal bool GetSettingsEnabled()
@@ -662,5 +683,7 @@ namespace IBR.StringResourceBuilder2011
     }
 
     #endregion //Public members -----------------------------------------------------------------------
+
+    
   } //class
 } //namespace

@@ -11,6 +11,7 @@ namespace IBR.StringResourceBuilder2011
     public const uint Next = 0x000E;
     public const uint Last = 0x000F;
     public const uint Make = 0x0010;
+    public const uint MakeAll = 0x0014;
     public const uint Settings = 0x0012;
     public const uint SRBToolbarMenu = 0x0005;
   } //class

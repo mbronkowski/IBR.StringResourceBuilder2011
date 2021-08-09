@@ -346,6 +346,55 @@ namespace IBR.StringResourceBuilder2011
       command.Enabled = (m_Control == null) ? false : m_Control.GetMakeEnabled();
     }
 
+  
+    #endregion
+
+
+    #region Handlers for Button: MakeAll
+
+    protected override void MakeAllExecuteHandler(object sender, EventArgs e)
+    {
+        //base.MakeAllExecuteHandler(sender, e);
+
+        OleMenuCommand command = sender as OleMenuCommand;
+
+        if (command == null)
+            return;
+
+        if (m_Control == null)
+            return;
+
+        m_Control.DoMakeAll();
+    }
+
+    protected override void MakeAllChangeHandler(object sender, EventArgs e)
+    {
+        //base.MakeAllChangeHandler(sender, e);
+
+        OleMenuCommand command = sender as OleMenuCommand;
+
+        if (command == null)
+            return;
+    }
+
+    protected override void MakeAllQueryStatusHandler(object sender, EventArgs e)
+    {
+        //Debug.Print(">>> MakeAllQueryStatusHandler()");
+
+        //base.MakeAllQueryStatusHandler(sender, e);
+
+        OleMenuCommand command = sender as OleMenuCommand;
+
+        if (command == null)
+            return;
+
+        if ((m_Control != null) && (m_Control.MakeAllButton == null))
+            m_Control.MakeAllButton = command;
+
+        command.Enabled = (m_Control == null) ? false : m_Control.GetMakeEnabled();
+    }
+
+  
     #endregion
 
     #region Handlers for Button: Settings

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -463,7 +464,7 @@ namespace IBR.StringResourceBuilder2011.Modules
           value = value.Replace("\"\"", "\\\""); // [""] -> [\"] (change VB writing to CSharp)
 
         //add to the resource file (checking for duplicate)
-        if (!AppendStringResource(resxFile, name, value, comment))
+        if (!AppendStringResource(resxFile, ref name, value, comment))
           return;
 
         //(re-)create the designer class
@@ -588,96 +589,110 @@ namespace IBR.StringResourceBuilder2011.Modules
       insertPoint.Insert(alias);
     }
 
-    private bool AppendStringResource(string resxFileName,
-                                      string name,
-                                      string value,
-                                      string comment)
-    {
-      try
-      {
-        XmlElement dataElement,
-                   valueElement;
-        XmlAttribute attribute;
-
-        XmlDocument xmlDoc = new XmlDocument();
-        xmlDoc.Load(resxFileName);
-
-        string xmlPath = $"descendant::data[(attribute::name='{name}')]/descendant::value";
-        XmlNode xmlNode = xmlDoc.DocumentElement.SelectSingleNode(xmlPath);
-        if (xmlNode != null)
+            private string GetResourceKey(string resourceFileName, string key)
         {
-          //xmlNode = xmlNode.SelectSingleNode("descendant::value");
-          string msg = string.Format("This resource name already exists:\r\n\r\n"
-                                     + "{0} = '{1}'\r\n"
-                                     + "(new string is '{2}')\r\n\r\n"
-                                     + "Do you want to use the existing resource instead?",
-                                     name, xmlNode.InnerText, value);
-          if (MessageBox.Show(msg, "Make resource", MessageBoxButton.YesNo,
-                              MessageBoxImage.Question) != MessageBoxResult.Yes)
-            return (false);
-          else
-            return (true);
-        } //if
-
-        if (m_IsCSharp)
-        {
-          if (value.Contains("\\r"))
-            value = value.Replace("\\r", "\r");
-
-          if (value.Contains("\\n"))
-            value = value.Replace("\\n", "\n");
-
-          if (value.Contains("\\t"))
-            value = value.Replace("\\t", "\t");
-
-          if (value.Contains("\\0"))
-            value = value.Replace("\\0", "\0");
-
-          if (value.Contains(@"\\"))
-            value = value.Replace(@"\\", @"\");
-        } //if
-
-        if (value.Contains("\\\""))
-          value = value.Replace("\\\"", "\"");
-
-        // <data name="eMsgBoxButtons_RetryCancel" xml:space="preserve">
-        //   <value>&amp;Wiederholen;&amp;Abbruch</value>
-        //   <comment>&amp;Retry;&amp;Cancel</comment>
-        // </data>
-
-        dataElement = xmlDoc.CreateElement("data");
-        {
-          attribute = xmlDoc.CreateAttribute("name");
-          attribute.Value = name;
-          dataElement.Attributes.Append(attribute);
-
-          attribute = xmlDoc.CreateAttribute("xml:space");
-          attribute.Value = "preserve";
-          dataElement.Attributes.Append(attribute);
-
-          valueElement = xmlDoc.CreateElement("value");
-          valueElement.InnerText = value;
-          dataElement.AppendChild(valueElement);
-
-          if (!string.IsNullOrEmpty(comment))
-          {
-            valueElement = xmlDoc.CreateElement("comment");
-            valueElement.InnerText = comment;
-            dataElement.AppendChild(valueElement);
-          } //if
+            
+            System.Resources.ResXResourceReader rsxr = null;
+            try
+            {
+                rsxr = new System.Resources.ResXResourceReader(resourceFileName);
+                System.Collections.DictionaryEntry d = default(System.Collections.DictionaryEntry);
+                foreach (DictionaryEntry d_loopVariable in rsxr)
+                {
+                    if (d_loopVariable.Key.ToString().ToLower().Equals(key.ToLower())) return d_loopVariable.Key.ToString();
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                string logMessage = $"Unable to find key {key} in resource file: {resourceFileName}.";
+                throw new Exception(logMessage, e);
+            }
+            finally
+            {
+                if(rsxr != null)
+                    rsxr.Close();
+            }
         }
-        xmlDoc.DocumentElement.AppendChild(dataElement);
 
-        xmlDoc.Save(resxFileName);
-      }
-      catch (Exception ex)
-      {
-        Trace.WriteLine($"### AppendStringResource() - {ex.ToString()}");
-        return (false);
-      }
+        private bool AppendStringResource(string resxFileName,
+                                  ref string name,
+                                  string value,
+                                  string comment)
+        {
+            try
+            {
+                XmlElement dataElement,
+                           valueElement;
+                XmlAttribute attribute;
 
-      return (true);
-    }
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(resxFileName);
+
+                //if (name == name.ToLower())
+                //{
+                //    name = "_" + name;
+                //}
+                //else if (name == name.ToUpper())
+                //{
+                //    name = "__" + name;
+                //}
+                string resourceName = GetResourceKey(resxFileName, name);
+                if (resourceName != null)
+                {
+                    name = resourceName;
+                    return true;
+                }
+
+                if (value.Contains("\\r"))
+                    value = value.Replace("\\r", "\r");
+
+                if (value.Contains("\\n"))
+                    value = value.Replace("\\n", "\n");
+
+                if (value.Contains("\\t"))
+                    value = value.Replace("\\t", "\t");
+
+                if (value.Contains("\\0"))
+                    value = value.Replace("\\0", "\0");
+
+                if (value.Contains(@"\\"))
+                    value = value.Replace(@"\\", @"\");
+
+                if (value.Contains("\\\""))
+                    value = value.Replace("\\\"", "\"");
+
+                dataElement = xmlDoc.CreateElement("data");
+                {
+                    attribute = xmlDoc.CreateAttribute("name");
+                    attribute.Value = name;
+                    dataElement.Attributes.Append(attribute);
+
+                    attribute = xmlDoc.CreateAttribute("xml:space");
+                    attribute.Value = "preserve";
+                    dataElement.Attributes.Append(attribute);
+
+                    valueElement = xmlDoc.CreateElement("value");
+                    valueElement.InnerText = value;
+                    dataElement.AppendChild(valueElement);
+
+                    if (!string.IsNullOrEmpty(comment))
+                    {
+                        valueElement = xmlDoc.CreateElement("comment");
+                        valueElement.InnerText = comment;
+                        dataElement.AppendChild(valueElement);
+                    }
+                }
+                xmlDoc.DocumentElement.AppendChild(dataElement);
+
+                xmlDoc.Save(resxFileName);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
     private void RemoveStringResource(int index)
     {

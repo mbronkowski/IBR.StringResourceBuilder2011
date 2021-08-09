@@ -657,6 +657,14 @@ namespace IBR.StringResourceBuilder2011.Modules
           if (char.IsDigit(name[0]))
             name = "_" + name;
 
+          if (name == name.ToLower())
+          {
+              name = "_" + name;
+          }
+          else if (name == name.ToUpper())
+          {
+              name = "__" + name;
+          }
           //[12-10-03 DR]: Indexing no longer in use
           //int count = GetFirstFreeNameIndex(name, stringResources);
           //if (count > 0)

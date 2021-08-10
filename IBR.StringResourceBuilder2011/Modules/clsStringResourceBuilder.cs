@@ -286,7 +286,12 @@ namespace IBR.StringResourceBuilder2011.Modules
       } //else
 
       m_IsCSharp         = (m_Window.Document.Language == "CSharp");
-      m_ProjectExtension = System.IO.Path.GetExtension(m_Window.Project.FullName).Substring(1);
+      var extension = System.IO.Path.GetExtension(m_Window.Project.FullName);
+      if (string.IsNullOrWhiteSpace(extension))
+      {
+          return false;
+      }
+      m_ProjectExtension = extension.Substring(1);
       m_TextDocument     = m_Window.Document.Object("TextDocument") as TextDocument;
       if (m_TextDocument == null)
         return (false);

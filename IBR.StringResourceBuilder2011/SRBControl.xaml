@@ -57,6 +57,8 @@
         <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Path=Name}"/>
         <DataGridTextColumn Header="Text" Width="2*" IsReadOnly="True" Binding="{Binding Path=Text}"/>
         <DataGridTextColumn Header="Location" Width="Auto" IsReadOnly="True" Binding="{Binding Path=Location}"/>
+        <DataGridTextColumn Header="TextLine " Width="3*" IsReadOnly="True" Binding="{Binding Path=LineText}"/>
+        
       </DataGrid.Columns>
     </DataGrid>
     <StatusBar Grid.Row="2" Name="statusBar1">

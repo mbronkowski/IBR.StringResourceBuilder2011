@@ -29,12 +29,15 @@ namespace IBR.StringResourceBuilder2011.Modules
     /// <param name="location">The location.</param>
     public StringResource(string name,
                           string text,
-                          System.Drawing.Point location)
+                          System.Drawing.Point location, string lineText)
     {
       this.Name     = name;
       this.Text     = text;
       this.Location = location;
+      this.LineText = lineText;
     }
+
+    
 
     #endregion //Constructor -----------------------------------------------------------------------
 
@@ -65,6 +68,7 @@ namespace IBR.StringResourceBuilder2011.Modules
     /// Gets the location of the string literal (X is line number and Y is column number).
     /// </summary>
     public System.Drawing.Point Location { get { return (m_Location); } private set { m_Location = value; } }
+    public string LineText { get; private set; }
 
     #endregion //Properties ------------------------------------------------------------------------
 

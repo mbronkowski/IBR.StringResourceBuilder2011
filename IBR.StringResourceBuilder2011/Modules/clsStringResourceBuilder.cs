@@ -596,6 +596,7 @@ namespace IBR.StringResourceBuilder2011.Modules
             try
             {
                 rsxr = new System.Resources.ResXResourceReader(resourceFileName);
+                rsxr.BasePath = System.IO.Path.GetDirectoryName(resourceFileName);
                 System.Collections.DictionaryEntry d = default(System.Collections.DictionaryEntry);
                 foreach (DictionaryEntry d_loopVariable in rsxr)
                 {

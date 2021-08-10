@@ -486,8 +486,8 @@ namespace IBR.StringResourceBuilder2011.Modules
 
           isAtString           = !isCSharp || part.EndsWith("@");
           isInterpolatedString = isCSharp && (part.EndsWith("$") || part.EndsWith("$@"));
-
-          stringPos.Add(pos);
+          if(!isAtString)
+            stringPos.Add(pos);
 
           isInString = true;
           #endregion
@@ -572,6 +572,7 @@ namespace IBR.StringResourceBuilder2011.Modules
             {
               if (!settings.IsIgnoreVerbatimStrings)
                 txt.Append(part);
+              
               pos += part.Length;
             } //if
 

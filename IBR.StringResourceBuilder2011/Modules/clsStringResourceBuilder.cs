@@ -461,7 +461,15 @@ namespace IBR.StringResourceBuilder2011.Modules
                value,
                comment = string.Empty;
         StringResource stringResource =resource ?? m_SelectedStringResource;// this.dataGrid1.CurrentItem as StringResource;
-
+        if (stringResource.SkipAsAt)
+        {
+            m_TextDocument.Selection.MoveToLineAndOffset(stringResource.Location.X, stringResource.Location.Y, false);
+            m_TextDocument.Selection.Insert("@", (int)vsInsertFlags.vsInsertFlagsContainNewText);
+            UpdateTableAndSelectNext(1, 0 );
+            if ((m_Window != null) && (m_Window != m_Dte2.ActiveWindow))
+                m_Window.Activate();
+            return;
+        }
         name = stringResource.Name;
         value = stringResource.Text;
 
@@ -507,7 +515,15 @@ namespace IBR.StringResourceBuilder2011.Modules
             //create a resource call like "Properties.SRB_Strings_Resources.myResText", "Properties.Resources.myResText", "Resources.myResText"
             int lastDotPos = nameSpace.LastIndexOf('.');
             string resxNameSpace = (lastDotPos >= 0) ? string.Concat(nameSpace.Substring(lastDotPos + 1), ".") : string.Empty;
-            resourceCall = string.Concat(resxNameSpace, className, ".", name);
+            if (stringResource.IsAttribut)
+            {
+                resourceCall = string.Concat("nameof(",resxNameSpace, className, ".", name,"), typeof(",resxNameSpace, className,")" );    
+            }
+            else
+            {
+                resourceCall = string.Concat(resxNameSpace, className, ".", name);    
+            }
+            
           } //else
 
           //insert the resource call, replacing the selected string literal

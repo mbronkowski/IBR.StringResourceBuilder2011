@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -27,14 +28,17 @@ namespace IBR.StringResourceBuilder2011.Modules
     /// <param name="name">The resource name.</param>
     /// <param name="text">The string literal.</param>
     /// <param name="location">The location.</param>
+    /// <param name="lineText"></param>
+    /// <param name="isAttribut"></param>
     public StringResource(string name,
-                          string text,
-                          System.Drawing.Point location, string lineText)
+        string text,
+        Point location, string lineText, bool isAttribut)
     {
       this.Name     = name;
       this.Text     = text;
       this.Location = location;
       this.LineText = lineText;
+      this.IsAttribut = isAttribut;
     }
 
     
@@ -69,6 +73,9 @@ namespace IBR.StringResourceBuilder2011.Modules
     /// </summary>
     public System.Drawing.Point Location { get { return (m_Location); } private set { m_Location = value; } }
     public string LineText { get; private set; }
+    public bool IsAttribut { get;  set; }
+    public bool SkipAsAt { get;  set; }
+    
 
     #endregion //Properties ------------------------------------------------------------------------
 

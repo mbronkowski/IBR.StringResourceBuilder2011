@@ -177,13 +177,14 @@ namespace IBR.StringResourceBuilder2011.Modules
     /// <param name="isCSharp">If set to <c>true</c> it is CSharp code.</param>
     /// <param name="startLine">The start line.</param>
     /// <param name="endLine">The end line.</param>
+   
     private static void ParseForStrings(CodeElement element,
-                                        Action<int> progressWorker,
-                                        List<StringResource> stringResources,
-                                        Settings settings,
-                                        bool isCSharp,
-                                        int startLine,
-                                        int endLine)
+        Action<int> progressWorker,
+        List<StringResource> stringResources,
+        Settings settings,
+        bool isCSharp,
+        int startLine,
+        int endLine)
     {
       if (element == null)
         return;
@@ -221,7 +222,8 @@ namespace IBR.StringResourceBuilder2011.Modules
 
       if (element.IsCodeType
           && ((element.Kind == vsCMElement.vsCMElementClass)
-              || (element.Kind == vsCMElement.vsCMElementStruct)))
+              || (element.Kind == vsCMElement.vsCMElementStruct)
+              || (element.Kind == vsCMElement.vsCMElementEnum)))
       {
         CodeElements elements = (element as CodeType).Members;
 
@@ -249,7 +251,8 @@ namespace IBR.StringResourceBuilder2011.Modules
 
         if (setterHasStartPoint)
           ParseForStrings(prop.Setter as CodeElement, progressWorker, stringResources, settings, isCSharp, startLine, endLine);
-
+        foreach (CodeElement element2 in prop.Attributes)
+            ParseForStrings(element2, progressWorker, stringResources, settings, isCSharp, startLine, endLine);
         if (!getterHasStartPoint && !setterHasStartPoint)
         {
           //expression bodied property
@@ -376,7 +379,7 @@ namespace IBR.StringResourceBuilder2011.Modules
 
 #if !IGNORE_METHOD_ARGUMENTS
             if (txtLine.Contains("\""))
-              ParseForStrings(txtLine, editLine, editColumn, stringResources, settings, isCSharp, ref isComment);
+              ParseForStrings(txtLine, editLine, editColumn, stringResources, settings, isCSharp, ref isComment,element.Kind == vsCMElement.vsCMElementAttribute);
 #else
             if (line.Contains("\""))
               ParseForStrings(line, editLine, editColumn, stringResources, settings, ref isComment, ref isIgnoreMethodArguments);
@@ -418,7 +421,7 @@ namespace IBR.StringResourceBuilder2011.Modules
                                         ref bool isComment,
                                         ref bool isIgnoreMethodArguments
 #endif
-                                       )
+                                       ,bool IsAttribut =false)
     {
       List<int> stringPos = new List<int>();
 
@@ -671,7 +674,7 @@ namespace IBR.StringResourceBuilder2011.Modules
           //if (count > 0)
           //  name += "_" + count.ToString();
 
-          stringResources.Add(new StringResource(name, draftName, new System.Drawing.Point(lineNo, stringPos[i] + colNo - 1),txtLine.TrimStart().TrimEnd()));
+          stringResources.Add(new StringResource(name, draftName, new System.Drawing.Point(lineNo, stringPos[i] + colNo - 1),txtLine.TrimStart().TrimEnd(),IsAttribut));
         } //for
         #endregion
       } //if

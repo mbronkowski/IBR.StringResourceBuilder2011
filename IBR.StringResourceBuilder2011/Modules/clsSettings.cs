@@ -43,7 +43,7 @@ namespace IBR.StringResourceBuilder2011
       set { m_IsIgnoreNumberStrings = value; }
     }
 
-    private bool m_IsIgnoreVerbatimStrings /*= false*/;
+    private bool m_IsIgnoreVerbatimStrings = true;
     public bool IsIgnoreVerbatimStrings
     {
       get { return (m_IsIgnoreVerbatimStrings); }
@@ -64,21 +64,21 @@ namespace IBR.StringResourceBuilder2011
       set { m_IgnoreStringLength = value; }
     }
 
-    private bool m_IsUseGlobalResourceFile /*= false*/;
+    private bool m_IsUseGlobalResourceFile =true;
     public bool IsUseGlobalResourceFile
     {
       get { return (m_IsUseGlobalResourceFile); }
       set { m_IsUseGlobalResourceFile = value; }
     }
 
-    private string m_GlobalResourceFileName = "SRB_Strings";
+    private string m_GlobalResourceFileName = "";
     public string GlobalResourceFileName
     {
       get { return (m_GlobalResourceFileName); }
       set { m_GlobalResourceFileName = value; }
     }
 
-    private bool m_IsDontUseResourceAlias/*= false*/;
+    private bool m_IsDontUseResourceAlias= true;
     public bool IsDontUseResourceAlias
     {
       get { return (m_IsDontUseResourceAlias); }

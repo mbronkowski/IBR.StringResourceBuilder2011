@@ -684,6 +684,12 @@ namespace IBR.StringResourceBuilder2011
 
     #endregion //Public members -----------------------------------------------------------------------
 
-    
+
+    private void btnAtForAllStrings_OnClick(object sender, RoutedEventArgs e)
+    {
+        m_StringResourceBuilder.SetAtStringForAllResources();
+        dataGrid1.Items.Refresh();
+        dataGrid1.Refresh();
+    }
   } //class
 } //namespace

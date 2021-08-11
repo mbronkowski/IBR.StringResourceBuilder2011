@@ -1238,6 +1238,10 @@ namespace IBR.StringResourceBuilder2011.Modules
 
     #endregion //Public methods --------------------------------------------------------------------
 
-    
+
+    public void SetAtStringForAllResources()
+    {
+        this.m_StringResources.ForEach(x=> x.SkipAsAt = true);
+    }
   } //class
 } //namespace

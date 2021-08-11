@@ -38,7 +38,7 @@ namespace IBR.StringResourceBuilder2011.Modules
       this.Text     = text;
       this.Location = location;
       this.LineText = lineText;
-      this.IsAttribut = isAttribut;
+      this.IsAttribut = lineText.StartsWith("[") && lineText.EndsWith("]");
     }
 
     
@@ -59,6 +59,7 @@ namespace IBR.StringResourceBuilder2011.Modules
     /// <value>
     /// The resource name.
     /// </value>
+    ///
     public string Name { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace IBR.StringResourceBuilder2011.Modules
 
       private string[] standardLinesString = new[]
       {
-          "SqlCommand(", "AddParameter(", ".Include(" , "IsInRole(" ,"AddComponent("
+          "SqlCommand(", "AddParameter(", ".Include(" , "AddComponent("
       };
     #region Constructor
 
@@ -76,6 +76,7 @@ namespace IBR.StringResourceBuilder2011.Modules
                         lineText.Contains("[\"" + Text+"\"]") ||
                         lineText.Contains("Guid(\"" + Text) ||
                         lineText.Contains("case \"" + Text) ||
+                        lineText.Contains("IsInRole(\"" + Text) ||
                         lineText.ToLower().Contains(("\"id\", \"" + Text).ToLower()) ||
                         standardLinesString.Any(x=> lineText.Contains(x));
 

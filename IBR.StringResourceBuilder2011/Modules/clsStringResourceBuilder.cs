@@ -1213,7 +1213,7 @@ namespace IBR.StringResourceBuilder2011.Modules
         {
             var startCount = m_StringResources.Count;
             ProjectItem resourceFilePrjItem = OpenOrCreateResourceFile();
-
+            
             if (resourceFilePrjItem == null)
                 return;
             SelectStringInTextDocument();

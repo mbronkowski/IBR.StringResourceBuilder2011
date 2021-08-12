@@ -425,7 +425,11 @@ namespace IBR.StringResourceBuilder2011.Modules
       //open the ResX file
       if (!resourceFilePrjItem.IsOpen[EnvDTEConstants.vsViewKindAny])
         resourceFilePrjItem.Open(EnvDTEConstants.vsViewKindDesigner);
-
+      var property = resourceFilePrjItem.Properties.Item("CustomTool") as EnvDTE.Property;
+      if (property != null)
+      {
+          property.Value = "PublicResXFileCodeGenerator";
+      }
       return (resourceFilePrjItem);
     }
 

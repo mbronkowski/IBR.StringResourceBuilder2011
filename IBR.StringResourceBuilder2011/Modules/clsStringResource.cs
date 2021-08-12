@@ -13,6 +13,14 @@ namespace IBR.StringResourceBuilder2011.Modules
   /// </summary>
   class StringResource
   {
+      string[] standardStrings = new [] {
+          "name", "description", "comment", "key","value"
+      };
+
+      private string[] standardLinesString = new[]
+      {
+          "SqlCommand(", "AddParameter(", ".Include("
+      };
     #region Constructor
 
     /// <summary>
@@ -37,11 +45,38 @@ namespace IBR.StringResourceBuilder2011.Modules
       this.Name     = name;
       this.Text     = text;
       this.Location = location;
-      this.LineText = lineText;
-      this.IsAttribut = lineText.StartsWith("[") && lineText.EndsWith("]");
+      this.LineText = lineText.TrimStart().TrimEnd();
+      checkStardards(lineText);
+      try
+      {
+          var strings = lineText.Split(new []{text},StringSplitOptions.None);
+          this.TextBefore = strings[0];
+          this.TextAfter = strings[0];
+      }
+      catch (Exception)
+      {
+          
+      }
+      
     }
 
-    
+    public string TextAfter { get; set; }
+
+    public string TextBefore { get; set; }
+
+    private void checkStardards(string lineText)
+    {
+        this.IsAttribut = lineText.StartsWith("[") && lineText.EndsWith("]");
+
+        this.SkipAsAt = standardStrings.Contains(Text.ToLower()) ||
+                        lineText.Contains("Name = \"" + Text) ||
+                        lineText.ToLower().Contains(("\"id\", \"" + Text).ToLower()) ||
+                        standardLinesString.Any(x=> lineText.Contains(x));
+
+
+    }
+        
+   
 
     #endregion //Constructor -----------------------------------------------------------------------
 
@@ -102,6 +137,33 @@ namespace IBR.StringResourceBuilder2011.Modules
       m_Location.Offset(lineOffset, columnOffset);
     }
 
+    public string GetCSVLine()
+    {
+        var stringResult = SkipAsAt ? "2" : (IsAttribut ? "1" : "0");
+        return
+            $"{StringToCSVCell(Text)},{StringToCSVCell(LineText)},{StringToCSVCell(TextBefore)},{StringToCSVCell(TextAfter)},{stringResult}";
+    }
     #endregion //Public methods --------------------------------------------------------------------
+    public static string StringToCSVCell(string str)
+    {
+        bool mustQuote = (str.Contains(",") || str.Contains("\"") || str.Contains("\r") || str.Contains("\n"));
+        if (mustQuote)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("\"");
+            foreach (char nextChar in str)
+            {
+                sb.Append(nextChar);
+                if (nextChar == '"')
+                    sb.Append("\"");
+            }
+            sb.Append("\"");
+            return sb.ToString();
+        }
+
+        return str;
+    }
+
+    
   } //class
 } //namespace

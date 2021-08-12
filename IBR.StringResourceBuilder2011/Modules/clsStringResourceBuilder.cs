@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -1200,6 +1201,7 @@ namespace IBR.StringResourceBuilder2011.Modules
             return;
         
         m_IsMakePerformed = true;
+        saveDataToAI();
 
         SelectCell(0, 0);
         Application.Current.Dispatcher.Invoke(DispatcherPriority.Background,
@@ -1222,13 +1224,39 @@ namespace IBR.StringResourceBuilder2011.Modules
             }
         }
         
-        
+        if (!Window.Document.Saved)
+        {
+            Window.Document.Save();
+        }
 
         //SetEnabled();
 
         //MarkStringInTextDocument();
 
         m_LastDocumentLength = m_TextDocument.EndPoint.Line;
+    }
+
+    private void saveDataToAI()
+    {
+        try
+        {
+            var directoryName = System.IO.Path.GetDirectoryName(Settings.SaveAIFile);
+            if (!Directory.Exists(directoryName))
+                Directory.CreateDirectory(directoryName);
+            
+            using(StreamWriter sw = File.AppendText(Settings.SaveAIFile))
+            {
+                foreach (var resource in m_StringResources)
+                {
+                    sw.WriteLineAsync(resource.GetCSVLine());
+                }                
+            } 
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+          //  throw;
+        }
     }
 
     public void SaveSettings()

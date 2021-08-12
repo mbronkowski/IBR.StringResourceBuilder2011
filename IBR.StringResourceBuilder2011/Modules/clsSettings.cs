@@ -113,6 +113,8 @@ namespace IBR.StringResourceBuilder2011
       set { m_IgnoreMethodsArguments = value; }
     }
 
+    public string SaveAIFile { get; set; } = @"C:\TranslateAI\data.csv";
+
     #endregion //Properties --------------------------------------------------------------
 
     #region Events

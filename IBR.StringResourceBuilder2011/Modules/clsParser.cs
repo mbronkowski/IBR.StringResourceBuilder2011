@@ -674,7 +674,7 @@ namespace IBR.StringResourceBuilder2011.Modules
           //if (count > 0)
           //  name += "_" + count.ToString();
 
-          stringResources.Add(new StringResource(name, draftName, new System.Drawing.Point(lineNo, stringPos[i] + colNo - 1),txtLine.TrimStart().TrimEnd(),IsAttribut));
+          stringResources.Add(new StringResource(name, draftName, new System.Drawing.Point(lineNo, stringPos[i] + colNo - 1),txtLine,IsAttribut));
         } //for
         #endregion
       } //if

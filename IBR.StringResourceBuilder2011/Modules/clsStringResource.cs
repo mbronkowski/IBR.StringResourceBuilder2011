@@ -75,7 +75,7 @@ namespace IBR.StringResourceBuilder2011.Modules
                         lineText.Contains("LookUpColumnInfo(\"" + Text) ||
                         lineText.Contains("[\"" + Text+"\"]") ||
                         lineText.Contains("Guid(\"" + Text) ||
-                        lineText.Contains("case: \"" + Text) ||
+                        lineText.Contains("case \"" + Text) ||
                         lineText.ToLower().Contains(("\"id\", \"" + Text).ToLower()) ||
                         standardLinesString.Any(x=> lineText.Contains(x));
 

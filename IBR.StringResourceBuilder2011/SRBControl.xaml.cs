@@ -693,16 +693,35 @@ namespace IBR.StringResourceBuilder2011
         dataGrid1.Refresh();
     }
 
-    private void UIElement_OnKeyUp(object sender, KeyEventArgs e)
+    private void control_PreviewKeyDown(object sender, KeyEventArgs e)
     {
+        if (e.Key == Key.Enter && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift))
+        {
+            DoMake();
+            e.Handled = true;
+            return;
+        }
+        if (e.Key == Key.Enter && Keyboard.IsKeyDown(Key.LeftCtrl))
+        {
+            DoMakeAll();
+            e.Handled = true;
+            return;
+        }
         if (e.Key == Key.Space || e.Key == Key.Enter)
         {
-            var stringResource = GetSelectedItem();
-            if (stringResource != null)
+            if (this.dataGrid1.SelectedCells.Count > 0)
             {
-                stringResource.SkipAsAt = !stringResource.SkipAsAt;
+                if (this.dataGrid1.SelectedCells[0].Column.DisplayIndex  == 5)
+                {
+                    var stringResource = GetSelectedItem();
+                    if (stringResource != null)
+                    {
+                        stringResource.SkipAsAt = !stringResource.SkipAsAt;
+                    }    
+                }
             }
         }
+
     }
   } //class
 } //namespace

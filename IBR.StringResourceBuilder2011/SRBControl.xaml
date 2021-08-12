@@ -65,7 +65,7 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <DataGrid Grid.Row="1" Name="dataGrid1" SelectedCellsChanged="dataGrid1_SelectedCellsChanged" MouseDoubleClick="dataGrid1_MouseDoubleClick" GotFocus="dataGrid1_GotFocus" 
-              CellStyle='{StaticResource CellStyle}' PreviewKeyDown="UIElement_OnKeyUp">
+              CellStyle='{StaticResource CellStyle}' PreviewKeyDown="control_PreviewKeyDown">
         <DataGrid.RowStyle>
             <Style TargetType="DataGridRow"> 
                 <Style.Triggers>
@@ -94,10 +94,10 @@
                 </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
-        <DataGridTemplateColumn  Width="Auto" IsReadOnly="False"  >
+        <DataGridTemplateColumn  Width="Auto" IsReadOnly="False"    >
             <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                    <CheckBox IsChecked="{Binding SkipAsAt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  PreviewKeyDown="UIElement_OnKeyUp"/>
+                    <CheckBox IsChecked="{Binding SkipAsAt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  PreviewKeyDown="control_PreviewKeyDown"/>
                 </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
 

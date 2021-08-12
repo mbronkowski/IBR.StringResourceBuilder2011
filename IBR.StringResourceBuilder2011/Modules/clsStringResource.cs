@@ -54,7 +54,7 @@ namespace IBR.StringResourceBuilder2011.Modules
       {
           var strings = lineText.Split(new []{text},StringSplitOptions.None);
           this.TextBefore = strings[0];
-          this.TextAfter = strings[0];
+          this.TextAfter = strings[1];
       }
       catch (Exception)
       {
@@ -70,7 +70,7 @@ namespace IBR.StringResourceBuilder2011.Modules
     private void checkStardards(string lineText)
     {
         this.IsAttribut = IsAttribut || lineText.StartsWith("[") && lineText.EndsWith("]");
-
+     
         this.SkipAsAt = standardStrings.Contains(Text.ToLower()) ||
                         lineText.Contains("Name = \"" + Text) ||
                         lineText.Contains("LookUpColumnInfo(\"" + Text) ||
@@ -79,8 +79,10 @@ namespace IBR.StringResourceBuilder2011.Modules
                         lineText.Contains("case \"" + Text) ||
                         lineText.Contains("IsInRole(\"" + Text) ||
                         lineText.ToLower().Contains(("\"id\", \"" + Text).ToLower()) ||
-                        standardLinesString.Any(x=> lineText.Contains(x));
+                        standardLinesString.Any(x=> lineText.Contains(x));    
+      
 
+       
 
     }
         

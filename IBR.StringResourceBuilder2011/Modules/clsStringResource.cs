@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
-
+using IBR.StringResourceBuilder2011.Annotations;
 
 
 namespace IBR.StringResourceBuilder2011.Modules
@@ -11,7 +13,7 @@ namespace IBR.StringResourceBuilder2011.Modules
   /// <summary>
   /// StringResource class which holds a resource name, string literal and its location.
   /// </summary>
-  class StringResource
+  class StringResource : INotifyPropertyChanged
   {
       string[] standardStrings = new [] {
           "name", "description", "comment", "key","value"
@@ -19,7 +21,7 @@ namespace IBR.StringResourceBuilder2011.Modules
 
       private string[] standardLinesString = new[]
       {
-          "SqlCommand(", "AddParameter(", ".Include("
+          "SqlCommand(", "AddParameter(", ".Include(" , "IsInRole(" ,"AddComponent("
       };
     #region Constructor
 
@@ -70,6 +72,10 @@ namespace IBR.StringResourceBuilder2011.Modules
 
         this.SkipAsAt = standardStrings.Contains(Text.ToLower()) ||
                         lineText.Contains("Name = \"" + Text) ||
+                        lineText.Contains("LookUpColumnInfo(\"" + Text) ||
+                        lineText.Contains("[\"" + Text+"\"]") ||
+                        lineText.Contains("Guid(\"" + Text) ||
+                        lineText.Contains("case: \"" + Text) ||
                         lineText.ToLower().Contains(("\"id\", \"" + Text).ToLower()) ||
                         standardLinesString.Any(x=> lineText.Contains(x));
 
@@ -104,14 +110,20 @@ namespace IBR.StringResourceBuilder2011.Modules
 
     //must be defined explicitly because otherwise Offset() would not work!
     private System.Drawing.Point m_Location = System.Drawing.Point.Empty;
+    private bool m_SkipAsAt;
+
     /// <summary>
     /// Gets the location of the string literal (X is line number and Y is column number).
     /// </summary>
     public System.Drawing.Point Location { get { return (m_Location); } private set { m_Location = value; } }
     public string LineText { get; private set; }
     public bool IsAttribut { get;  set; }
-    public bool SkipAsAt { get;  set; }
-    
+
+    public bool SkipAsAt
+    {
+        get => m_SkipAsAt;
+        set { m_SkipAsAt = value;  OnPropertyChanged();}
+    }
 
     #endregion //Properties ------------------------------------------------------------------------
 
@@ -146,24 +158,40 @@ namespace IBR.StringResourceBuilder2011.Modules
     #endregion //Public methods --------------------------------------------------------------------
     public static string StringToCSVCell(string str)
     {
-        bool mustQuote = (str.Contains(",") || str.Contains("\"") || str.Contains("\r") || str.Contains("\n"));
-        if (mustQuote)
+        try
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("\"");
-            foreach (char nextChar in str)
+            str = str ?? "";
+            bool mustQuote = (str.Contains(",") || str.Contains("\"") || str.Contains("\r") || str.Contains("\n"));
+            if (mustQuote)
             {
-                sb.Append(nextChar);
-                if (nextChar == '"')
-                    sb.Append("\"");
+                StringBuilder sb = new StringBuilder();
+                sb.Append("\"");
+                foreach (char nextChar in str)
+                {
+                    sb.Append(nextChar);
+                    if (nextChar == '"')
+                        sb.Append("\"");
+                }
+                sb.Append("\"");
+                return sb.ToString();
             }
-            sb.Append("\"");
-            return sb.ToString();
         }
+        catch (Exception)
+        {
+            return "";
+        }
+        
 
         return str;
     }
 
-    
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    [NotifyPropertyChangedInvocator]
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
   } //class
 } //namespace

@@ -1163,8 +1163,8 @@ namespace IBR.StringResourceBuilder2011.Modules
       m_SelectedStringResource = resource ?? this.GetSelectedItem();
       m_SelectedGridRowIndex       = this.GetSelectedRowIndex();
 
-      if ((m_Window != null) && (m_Window != m_Dte2.ActiveWindow))
-        m_Window.Activate();
+     // if ((m_Window != null) && (m_Window != m_Dte2.ActiveWindow))
+     //   m_Window.Activate();
     }
 
     public void ClearStringResources()
@@ -1248,7 +1248,15 @@ namespace IBR.StringResourceBuilder2011.Modules
             {
                 foreach (var resource in m_StringResources)
                 {
-                    sw.WriteLineAsync(resource.GetCSVLine());
+                    try
+                    {
+                        sw.WriteLineAsync(resource.GetCSVLine());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                    
                 }                
             } 
         }
@@ -1271,5 +1279,7 @@ namespace IBR.StringResourceBuilder2011.Modules
     {
         this.m_StringResources.ForEach(x=> x.SkipAsAt = true);
     }
+
+    
   } //class
 } //namespace

@@ -174,6 +174,7 @@ namespace IBR.StringResourceBuilder2011
       ResetCurrentCellToSelection();
 
       SetEnabled();
+      m_StringResourceBuilder.SelectStringInTextDocument();
     }
 
     private void dataGrid1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -690,6 +691,18 @@ namespace IBR.StringResourceBuilder2011
         m_StringResourceBuilder.SetAtStringForAllResources();
         dataGrid1.Items.Refresh();
         dataGrid1.Refresh();
+    }
+
+    private void UIElement_OnKeyUp(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Space || e.Key == Key.Enter)
+        {
+            var stringResource = GetSelectedItem();
+            if (stringResource != null)
+            {
+                stringResource.SkipAsAt = !stringResource.SkipAsAt;
+            }
+        }
     }
   } //class
 } //namespace

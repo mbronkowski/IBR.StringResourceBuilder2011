@@ -522,7 +522,7 @@ namespace IBR.StringResourceBuilder2011.Modules
             string resxNameSpace = (lastDotPos >= 0) ? string.Concat(nameSpace.Substring(lastDotPos + 1), ".") : string.Empty;
             if (stringResource.IsAttribut)
             {
-                resourceCall = string.Concat("nameof(",resxNameSpace, className, ".", name,"), typeof(",resxNameSpace, className,")" );    
+                resourceCall = string.Concat("Name=nameof(",resxNameSpace, className, ".", name,"), ResourceType=typeof(",resxNameSpace, className,")" );    
             }
             else
             {
@@ -1207,6 +1207,14 @@ namespace IBR.StringResourceBuilder2011.Modules
         m_IsMakePerformed = true;
         saveDataToAI();
 
+        bool changeAttributes = false;
+        if (m_StringResources.Any(x => x.IsAttribut))
+        {
+            string msg2 = string.Format("Do you want to change attributes to translated version of attributes in this file?",
+                m_StringResources.Count);
+            changeAttributes = MessageBox.Show(msg2, "Make translated attributes", MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes;
+        }
         SelectCell(0, 0);
         Application.Current.Dispatcher.Invoke(DispatcherPriority.Background,
             new Action(delegate { }));
@@ -1227,7 +1235,16 @@ namespace IBR.StringResourceBuilder2011.Modules
                 return;
             }
         }
-        
+
+        if (changeAttributes)
+        {
+            Window.Document.ReplaceText("[Description", "[LocalizableDescription");
+            Window.Document.ReplaceText("[DisplayName", "[LocalizableDisplayName");
+            Window.Document.ReplaceText("Name = Name=nameof", "Name=nameof");
+            Window.Document.ReplaceText("Name= Name=nameof", "Name=nameof");
+            Window.Document.ReplaceText("Name=Name=nameof", "Name=nameof");
+
+        }
         if (!Window.Document.Saved)
         {
             Window.Document.Save();

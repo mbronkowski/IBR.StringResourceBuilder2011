@@ -47,6 +47,7 @@ namespace IBR.StringResourceBuilder2011.Modules
       this.Name     = name;
       this.Text     = text;
       this.Location = location;
+      this.IsAttribut = isAttribut;
       this.LineText = lineText.TrimStart().TrimEnd();
       checkStardards(lineText);
       try
@@ -68,7 +69,7 @@ namespace IBR.StringResourceBuilder2011.Modules
 
     private void checkStardards(string lineText)
     {
-        this.IsAttribut = lineText.StartsWith("[") && lineText.EndsWith("]");
+        this.IsAttribut = IsAttribut || lineText.StartsWith("[") && lineText.EndsWith("]");
 
         this.SkipAsAt = standardStrings.Contains(Text.ToLower()) ||
                         lineText.Contains("Name = \"" + Text) ||

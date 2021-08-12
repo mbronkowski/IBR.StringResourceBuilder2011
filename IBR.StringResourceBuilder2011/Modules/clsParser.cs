@@ -223,7 +223,8 @@ namespace IBR.StringResourceBuilder2011.Modules
       if (element.IsCodeType
           && ((element.Kind == vsCMElement.vsCMElementClass)
               || (element.Kind == vsCMElement.vsCMElementStruct)
-              || (element.Kind == vsCMElement.vsCMElementEnum)))
+              || (element.Kind == vsCMElement.vsCMElementEnum)
+              ))
       {
         CodeElements elements = (element as CodeType).Members;
 
@@ -262,7 +263,8 @@ namespace IBR.StringResourceBuilder2011.Modules
         } //if
       }
       else if ((element.Kind == vsCMElement.vsCMElementFunction)
-               || (element.Kind == vsCMElement.vsCMElementVariable))
+               || (element.Kind == vsCMElement.vsCMElementVariable)
+               || (element.Kind == vsCMElement.vsCMElementAttribute))
       {
         if ((element.Kind == vsCMElement.vsCMElementFunction) && settings.IgnoreMethod(element.Name))
           return;

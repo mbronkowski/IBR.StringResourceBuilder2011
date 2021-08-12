@@ -669,10 +669,7 @@ namespace IBR.StringResourceBuilder2011.Modules
           {
               name = "__" + name;
           }
-          //[12-10-03 DR]: Indexing no longer in use
-          //int count = GetFirstFreeNameIndex(name, stringResources);
-          //if (count > 0)
-          //  name += "_" + count.ToString();
+          
 
           stringResources.Add(new StringResource(name, draftName, new System.Drawing.Point(lineNo, stringPos[i] + colNo - 1),txtLine,IsAttribut));
         } //for

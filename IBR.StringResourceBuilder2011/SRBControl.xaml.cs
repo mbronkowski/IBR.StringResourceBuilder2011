@@ -734,5 +734,10 @@ namespace IBR.StringResourceBuilder2011
         }
 
     }
+
+    private void RefreshAIButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        m_StringResourceBuilder.ReRunAIProcess();
+    }
   } //class
 } //namespace

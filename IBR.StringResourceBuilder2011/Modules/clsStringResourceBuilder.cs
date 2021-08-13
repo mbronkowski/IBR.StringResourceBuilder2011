@@ -193,11 +193,11 @@ namespace IBR.StringResourceBuilder2011.Modules
       this.HideProgress();
 
       this.SetGridItemsSource(m_StringResources);
-      startAI(m_StringResources);
       this.RefreshGrid();
-
+      
       if (isChanged && (m_StringResources.Count > 0))
-      {
+      { 
+          startAI(m_StringResources,false);
         if (m_IsTextMoveSuspended)
         {
           if (m_SelectedGridRowIndex >= m_StringResources.Count)
@@ -222,10 +222,17 @@ namespace IBR.StringResourceBuilder2011.Modules
       m_IsBrowsing = false;
     }
 
-    private void startAI(List<StringResource> mStringResources)
+    private string lastWindowCaption = "";
+    private void startAI(List<StringResource> mStringResources, bool force)
     {
-        if(Settings.AiSugestions && !m_IsMakePerformed)
-            System.Threading.Tasks.Task.Factory.StartNew(() => { processDataByAiProcess(mStringResources);});
+        if (Settings.AiSugestions && !m_IsMakePerformed && mStringResources.Any() && Window != null)
+        {
+            if (!lastWindowCaption.Equals(Window.Caption) || force)
+            {
+                lastWindowCaption = Window.Caption;
+                System.Threading.Tasks.Task.Factory.StartNew(() => { processDataByAiProcess(mStringResources); });
+            }
+        }
     }
 
     private void processDataByAiProcess(List<StringResource> mStringResources)
@@ -1389,6 +1396,10 @@ namespace IBR.StringResourceBuilder2011.Modules
         this.m_StringResources.ForEach(x=> x.SkipAsAt = true);
     }
 
-    
+
+    public void ReRunAIProcess()
+    {
+        startAI(m_StringResources,true);
+    }
   } //class
 } //namespace

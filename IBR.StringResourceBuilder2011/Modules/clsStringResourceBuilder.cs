@@ -14,7 +14,7 @@ using System.Windows.Threading;
 using System.Windows;
 using System.Xml;
 using System.Security.AccessControl;
-
+using Process = System.Diagnostics.Process;
 
 
 namespace IBR.StringResourceBuilder2011.Modules
@@ -65,7 +65,7 @@ namespace IBR.StringResourceBuilder2011.Modules
     public Action<double> InitProgress { get; set; }
     public Action HideProgress { get; set; }
     public Action<int> SetProgress { get; set; }
-
+    public Action<int,string> SetAiProgress { get; set; }
     public Action ClearGrid { get; set; }
     public Action<System.Collections.IEnumerable> SetGridItemsSource { get; set; }
     public Action RefreshGrid { get; set; }
@@ -114,6 +114,8 @@ namespace IBR.StringResourceBuilder2011.Modules
       get { return (m_Settings); }
       private set { m_Settings = value; }
     }
+
+    
 
     #endregion //Properties ------------------------------------------------------------------------
 
@@ -191,6 +193,7 @@ namespace IBR.StringResourceBuilder2011.Modules
       this.HideProgress();
 
       this.SetGridItemsSource(m_StringResources);
+      startAI(m_StringResources);
       this.RefreshGrid();
 
       if (isChanged && (m_StringResources.Count > 0))
@@ -217,6 +220,91 @@ namespace IBR.StringResourceBuilder2011.Modules
         m_Window.Activate();
 
       m_IsBrowsing = false;
+    }
+
+    private void startAI(List<StringResource> mStringResources)
+    {
+        if(Settings.AiSugestions && !m_IsMakePerformed)
+            System.Threading.Tasks.Task.Factory.StartNew(() => { processDataByAiProcess(mStringResources);});
+    }
+
+    private void processDataByAiProcess(List<StringResource> mStringResources)
+    {
+        try
+        {
+            SetAiProgress(0, "Zapis danych do przekazania");
+            var topredictCsv = Settings.AiWorkFolder + "topredict.csv";
+            File.WriteAllText(topredictCsv, "");
+            using (StreamWriter sw = File.AppendText(topredictCsv))
+            {
+                foreach (var resource in mStringResources)
+                {
+                    try
+                    {
+                        sw.WriteLine(resource.GetCSVLine());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+
+                }
+            }
+
+            
+            SetAiProgress(1, "Start procesu AI");
+            ProcessStartInfo pInfo = new ProcessStartInfo();
+            pInfo.CreateNoWindow = true;
+            pInfo.UseShellExecute = false;
+            pInfo.FileName = Settings.AiProcessPath;
+            pInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(Settings.AiProcessPath);
+            pInfo.Arguments = "\"" + Settings.AiWorkFolder + "\\\"";
+            Process p = Process.Start(pInfo);
+            // p.WaitForInputIdle();
+            SetAiProgress(2, "Oczekiwanie na rezultat");
+            p.WaitForExit();
+            SetAiProgress(3, "Odczyt danych");
+            using (System.IO.StreamReader file = new System.IO.StreamReader(Settings.AiWorkFolder + "result.csv"))
+            {
+                string line;
+                int counter = 0;
+
+                while ((line = file.ReadLine()) != null)
+                {
+                    if (mStringResources.Count <= counter)
+                    {
+                        break;
+                    }
+                    var strings = line.Split(',');
+                    var result = strings[0];
+                    var precision = int.Parse(strings[1]);
+                    mStringResources[counter].Precision = precision;
+                    if (Settings.AiMinimumPrecision<= precision)
+                    {
+                        if ("2".Equals(result))
+                        {
+                            mStringResources[counter].AISugestionAsAt = true;
+                            mStringResources[counter].SkipAsAt = true;
+                        }
+                        if ("1".Equals(result))
+                        {
+                            mStringResources[counter].AISugestionAsAt = true;
+                            mStringResources[counter].IsAttribut = true;
+                        }
+                    }
+
+                    counter++;
+                }
+            }
+
+            SetAiProgress(0, "Done");
+        }
+        catch (Exception ex)
+        {
+            SetAiProgress(0, "Error:"+ex.Message);
+        }
+
+
     }
 
     private List<StringResource> GetAllStringResourcesInLine(int lineNo)
@@ -1261,17 +1349,17 @@ namespace IBR.StringResourceBuilder2011.Modules
     {
         try
         {
-            var directoryName = System.IO.Path.GetDirectoryName(Settings.SaveAIFile);
+            var directoryName = System.IO.Path.GetDirectoryName(Settings.AiWorkFolder+"data.csv");
             if (!Directory.Exists(directoryName))
                 Directory.CreateDirectory(directoryName);
             
-            using(StreamWriter sw = File.AppendText(Settings.SaveAIFile))
+            using(StreamWriter sw = File.AppendText(Settings.AiWorkFolder+"data.csv"))
             {
                 foreach (var resource in m_StringResources)
                 {
                     try
                     {
-                        sw.WriteLineAsync(resource.GetCSVLine());
+                        sw.WriteLine(resource.GetCSVLine());
                     }
                     catch (Exception e)
                     {

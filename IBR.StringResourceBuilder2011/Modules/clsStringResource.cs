@@ -70,7 +70,7 @@ namespace IBR.StringResourceBuilder2011.Modules
     private void checkStardards(string lineText)
     {
         this.IsAttribut = IsAttribut || lineText.StartsWith("[") && lineText.EndsWith("]");
-     
+    
         this.SkipAsAt = standardStrings.Contains(Text.ToLower()) ||
                         lineText.Contains("Name = \"" + Text) ||
                         lineText.Contains("LookUpColumnInfo(\"" + Text) ||
@@ -115,18 +115,53 @@ namespace IBR.StringResourceBuilder2011.Modules
     //must be defined explicitly because otherwise Offset() would not work!
     private System.Drawing.Point m_Location = System.Drawing.Point.Empty;
     private bool m_SkipAsAt;
+    private bool _aiSugestionAsAt;
+    private bool _isAttribut;
+    private int _precision;
 
     /// <summary>
     /// Gets the location of the string literal (X is line number and Y is column number).
     /// </summary>
     public System.Drawing.Point Location { get { return (m_Location); } private set { m_Location = value; } }
     public string LineText { get; private set; }
-    public bool IsAttribut { get;  set; }
+
+    public bool IsAttribut
+    {
+        get => _isAttribut;
+        set
+        {
+            if (value == _isAttribut) return;
+            _isAttribut = value;
+            OnPropertyChanged();
+        }
+    }
 
     public bool SkipAsAt
     {
         get => m_SkipAsAt;
         set { m_SkipAsAt = value;  OnPropertyChanged();}
+    }
+
+    public bool AISugestionAsAt
+    {
+        get => _aiSugestionAsAt;
+        set
+        {
+            if (value == _aiSugestionAsAt) return;
+            _aiSugestionAsAt = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int Precision
+    {
+        get => _precision;
+        set
+        {
+            if (value == _precision) return;
+            _precision = value;
+            OnPropertyChanged();
+        }
     }
 
     #endregion //Properties ------------------------------------------------------------------------

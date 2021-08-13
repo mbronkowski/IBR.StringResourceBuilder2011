@@ -96,6 +96,25 @@
                   <TextBlock VerticalAlignment="Center" Text="using GlblRes = ...;" FontFamily="Consolas, Courier New" Margin="0,1,0,0" />
                 </StackPanel>
               </CheckBox>
+                <CheckBox Margin="0,0,0,0" Name="cbStartAi">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="Run AI Sugestions. AI work folder:" />
+                        <TextBox MinWidth="20" Margin="4,2,0,2" VerticalAlignment="Center" Name="aiWorkFolder"
+                                 IsEnabled="{Binding ElementName=cbStartAi, Path=IsChecked}" FontFamily="Consolas, Courier New" />
+                        
+                        </StackPanel>
+                </CheckBox>
+                <StackPanel Margin="20,0,0,0" Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Process path to start:" FontFamily="Consolas, Courier New" Margin="0,1,0,0" />
+                    <TextBox MinWidth="20" Margin="4,2,0,2" VerticalAlignment="Center" Name="aiProcessPath"
+                             IsEnabled="{Binding ElementName=cbStartAi, Path=IsChecked}" FontFamily="Consolas, Courier New" />
+                </StackPanel>
+                <StackPanel Margin="20,0,0,0" Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Ignore sugestion below " />
+                    <my:NumericUpDown MinValue="2" Value="2" Width="50" x:Name="aiMinimumPrecision"
+                                      IsEnabled="{Binding ElementName=cbStartAi, Path=IsChecked}"/>
+                    <TextBlock VerticalAlignment="Center" Text=" and dont set as At." />
+                </StackPanel>
             </StackPanel>
           </GroupBox>
         </Grid>

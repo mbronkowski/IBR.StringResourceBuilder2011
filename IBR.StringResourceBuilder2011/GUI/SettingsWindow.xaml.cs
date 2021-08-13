@@ -38,6 +38,10 @@ namespace IBR.StringResourceBuilder2011.GUI
       this.cbUseGlobalResourceFile.IsChecked        = m_Settings.IsUseGlobalResourceFile;
       this.txtGlobalResourceFileName.Text           = m_Settings.GlobalResourceFileName;
       this.cbDontUseResourceAlias.IsChecked         = m_Settings.IsDontUseResourceAlias;
+      this.cbStartAi.IsChecked = m_Settings.AiSugestions;
+      this.aiProcessPath.Text = m_Settings.AiProcessPath;
+      this.aiWorkFolder.Text = m_Settings.AiWorkFolder;
+      this.aiMinimumPrecision.Value = m_Settings.AiMinimumPrecision;
 
       this.lstIgnoreStrings.Items    = m_Settings.IgnoreStrings;
       this.lstIgnoreSubStrings.Items = m_Settings.IgnoreSubStrings;
@@ -113,7 +117,10 @@ namespace IBR.StringResourceBuilder2011.GUI
       m_Settings.IsUseGlobalResourceFile   = this.cbUseGlobalResourceFile.IsChecked ?? false;
       m_Settings.GlobalResourceFileName    = (this.txtGlobalResourceFileName.Text ?? string.Empty).Trim();
       m_Settings.IsDontUseResourceAlias    = this.cbDontUseResourceAlias.IsChecked ?? false;
-
+      m_Settings.AiSugestions = this.cbStartAi.IsChecked ?? false;
+      m_Settings.AiProcessPath    = (this.aiProcessPath.Text ?? string.Empty).Trim();
+      m_Settings.AiWorkFolder    = (this.aiWorkFolder.Text ?? string.Empty).Trim();
+      m_Settings.AiMinimumPrecision = (int)this.aiMinimumPrecision.Value;
       m_Settings.IgnoreStrings.Clear();
       m_Settings.IgnoreStrings.AddRange(this.lstIgnoreStrings.Items);
       m_Settings.IgnoreSubStrings.Clear();

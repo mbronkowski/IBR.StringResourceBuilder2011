@@ -27,7 +27,7 @@ namespace IBR_StringResourceBuilder2011ML.Model
             MLContext mlContext = new MLContext();
 
             // Load model & create prediction engine
-            string modelPath = @"C:\Users\kmikrut\AppData\Local\Temp\MLVSTools\IBR.StringResourceBuilder2011ML\IBR.StringResourceBuilder2011ML.Model\MLModel.zip";
+            string modelPath = @"MLModel.zip";
             ITransformer mlModel = mlContext.Model.Load(modelPath, out var modelInputSchema);
             var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
 

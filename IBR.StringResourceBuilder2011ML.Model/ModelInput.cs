@@ -25,6 +25,8 @@ namespace IBR_StringResourceBuilder2011ML.Model
         [ColumnName("col4"), LoadColumn(4)]
         public string Col4 { get; set; }
 
+        public int Precistion { get; set; }
+
 
     }
 }

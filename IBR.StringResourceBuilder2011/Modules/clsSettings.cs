@@ -107,13 +107,43 @@ namespace IBR.StringResourceBuilder2011
     }
 
     private List<string> m_IgnoreMethodsArguments = new List<string>();
+    
+    private bool _aiSugestions = true;
+    private string _aiProcessPath =@"\\qnap\aplication\CultureTranslatorHelper\AI\IBR.StringResourceBuilder2011ML.ConsoleApp.exe";
+    private string _aiWorkFolder = @"C:\TranslateAI\";
+    private decimal _aiMinimumPrecision = 90;
+
     public List<string> IgnoreMethodsArguments
     {
       get { return (m_IgnoreMethodsArguments); }
       set { m_IgnoreMethodsArguments = value; }
     }
 
-    public string SaveAIFile { get; set; } = @"C:\TranslateAI\data.csv";
+    
+
+    public bool AiSugestions
+    {
+        get => _aiSugestions;
+        set => _aiSugestions = value;
+    }
+
+    public string AiProcessPath
+    {
+        get => _aiProcessPath;
+        set => _aiProcessPath = value;
+    }
+
+    public string AiWorkFolder
+    {
+        get => _aiWorkFolder;
+        set => _aiWorkFolder = value;
+    }
+
+    public decimal AiMinimumPrecision
+    {
+        get => _aiMinimumPrecision;
+        set => _aiMinimumPrecision = value;
+    }
 
     #endregion //Properties --------------------------------------------------------------
 

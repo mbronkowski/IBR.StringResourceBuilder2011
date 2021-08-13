@@ -41,6 +41,13 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
        
     </Style>
+    <Style TargetType="TextBox">
+       
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+       
+    </Style>
     <!-- make selection background blue even when DataGrid is unfocused (VS2012) -->
     <Style x:Key="CellStyle" TargetType="{x:Type DataGridCell}">
       <Style.Triggers>
@@ -49,6 +56,16 @@
             <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ComboBoxFocusedBackgroundBrushKey}}" />
         </Trigger>
       </Style.Triggers>
+    </Style>
+    <Style x:Key="DGCellStyle" TargetType="DataGridCell">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding AISugestionAsAt}" Value="True">
+                <Setter Property="Foreground" Value="White"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding AISugestionAsAt}" Value="True">
+                <Setter Property="Background" Value="Purple"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
     <!--StatusBar-->
     <Style TargetType="StatusBar">
@@ -72,9 +89,14 @@
                     <DataTrigger Binding="{Binding IsAttribut}" Value="True">
                         <Setter Property="Foreground" Value="Blue"></Setter>
                     </DataTrigger>
+                    <DataTrigger Binding="{Binding AISugestionAsAt}" Value="True">
+                        <Setter Property="Foreground" Value="Purple"></Setter>
+                    </DataTrigger>
+                    
                     <DataTrigger Binding="{Binding SkipAsAt}" Value="True">
                         <Setter Property="Foreground" Value="Red"></Setter>
                     </DataTrigger>
+                  
                     <Trigger Property="IsSelected" Value="True">
                         <Setter Property="FontWeight" Value="Bold"/>
                     </Trigger>
@@ -114,6 +136,16 @@
            
         </DataGridTemplateColumn>
         
+        <DataGridTemplateColumn  Width="Auto"  Header="Sugestia AI" IsReadOnly="True" CellStyle="{StaticResource DGCellStyle}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox>@</TextBox> <CheckBox IsChecked="{Binding AISugestionAsAt}"  IsEnabled="False"/> <TextBox Text="{Binding Precision}"></TextBox> <TextBox>%</TextBox>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
 
         
       </DataGrid.Columns>
@@ -122,6 +154,16 @@
       <StatusBarItem>
         <ProgressBar Name="progressBar1" Width="200" Height="20" />
       </StatusBarItem>
+        <Separator></Separator>
+    <StatusBarItem>
+        <TextBox> AI Status:</TextBox>
+    </StatusBarItem>
+    <StatusBarItem>
+        <ProgressBar Name="progressBarAi" Visibility="Hidden" Width="100" Height="20" />
+    </StatusBarItem>  
+    <StatusBarItem>
+        <TextBox Name="aiStatus"> </TextBox>
+    </StatusBarItem>
     </StatusBar>
   </Grid>
 </UserControl>

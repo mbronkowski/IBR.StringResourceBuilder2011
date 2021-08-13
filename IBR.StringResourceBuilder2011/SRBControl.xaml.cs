@@ -44,6 +44,7 @@ namespace IBR.StringResourceBuilder2011
       m_StringResourceBuilder.InitProgress        = InitProgress;
       m_StringResourceBuilder.HideProgress        = HideProgress;
       m_StringResourceBuilder.SetProgress         = SetProgress;
+      m_StringResourceBuilder.SetAiProgress      = SetAiProgress;
       m_StringResourceBuilder.ClearGrid           = ClearGrid;
       m_StringResourceBuilder.SetGridItemsSource  = SetGridItemsSource;
       m_StringResourceBuilder.RefreshGrid         = RefreshGrid;
@@ -415,6 +416,16 @@ namespace IBR.StringResourceBuilder2011
 #else
       SetProgress((double)value);
 #endif
+    }
+
+    private void SetAiProgress(int value,string text)
+    {
+        Application.Current.Dispatcher.Invoke(new Action(() =>
+        {
+            aiStatus.Text = text;
+            progressBarAi.IsIndeterminate = value != 0;
+            this.progressBarAi.Visibility = progressBarAi.IsIndeterminate ? Visibility.Visible: Visibility.Hidden;
+        }));
     }
     #endregion
 

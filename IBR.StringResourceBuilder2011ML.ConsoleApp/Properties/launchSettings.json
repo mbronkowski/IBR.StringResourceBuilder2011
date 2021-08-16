@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "IBR.StringResourceBuilder2011ML.ConsoleApp": {
+      "commandName": "Project",
+      "commandLineArgs": "train"
+    }
+  }
+}

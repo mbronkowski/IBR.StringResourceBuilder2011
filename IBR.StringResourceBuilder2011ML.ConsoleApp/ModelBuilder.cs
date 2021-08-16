@@ -12,7 +12,7 @@ namespace IBR_StringResourceBuilder2011ML.ConsoleApp
 {
     public static class ModelBuilder
     {
-        private static string TRAIN_DATA_FILEPATH = @"C:\TranslateAI\Train.csv";
+        private static string TRAIN_DATA_FILEPATH = @"C:\TranslateAI\Train___002 — kopia.csv";
         private static string MODEL_FILEPATH = @"C:\Users\kmikrut\AppData\Local\Temp\MLVSTools\IBR.StringResourceBuilder2011ML\IBR.StringResourceBuilder2011ML.Model\MLModel.zip";
         // Create MLContext to be shared across the model creation workflow objects 
         // Set a random seed for repeatable/deterministic results across multiple trainings.
@@ -45,8 +45,8 @@ namespace IBR_StringResourceBuilder2011ML.ConsoleApp
         {
             // Data process configuration with pipeline data transformations 
             var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey("col4", "col4")
-                                      .Append(mlContext.Transforms.Categorical.OneHotHashEncoding(new[] { new InputOutputColumnPair("col0", "col0"), new InputOutputColumnPair("col2", "col2"), new InputOutputColumnPair("col3", "col3") }))
-                                      .Append(mlContext.Transforms.Concatenate("Features", new[] { "col0", "col2", "col3" }))
+                                      .Append(mlContext.Transforms.Categorical.OneHotHashEncoding(new[] { new InputOutputColumnPair("col0", "col0"), new InputOutputColumnPair("col1", "col1"), new InputOutputColumnPair("col2", "col2"), new InputOutputColumnPair("col3", "col3") }))
+                                      .Append(mlContext.Transforms.Concatenate("Features", new[] { "col0", "col1", "col2", "col3" }))
                                       .Append(mlContext.Transforms.NormalizeMinMax("Features", "Features"))
                                       .AppendCacheCheckpoint(mlContext);
             // Set the training algorithm 

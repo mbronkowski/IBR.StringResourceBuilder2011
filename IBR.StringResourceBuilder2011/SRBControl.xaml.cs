@@ -243,7 +243,7 @@ namespace IBR.StringResourceBuilder2011
 
       bool isGotDocument    = (gotFocus != null) && (gotFocus.Document != null),
            isLostDocument   = (lostFocus != null) && (lostFocus.Document != null),
-           isGotCode        = isGotDocument && (gotFocus.Caption.EndsWith(".cs") || gotFocus.Caption.EndsWith(".vb")),
+           isGotCode        = isGotDocument && (gotFocus.Caption.EndsWith(".cs") || gotFocus.Caption.EndsWith(".vb") || gotFocus.Caption.Trim().EndsWith(".sql")),
            isLostCode       = isLostDocument && (lostFocus.Caption.EndsWith(".cs") || lostFocus.Caption.EndsWith(".vb"));
 
       if (!isGotDocument /*&& !isLostDocument*/ && (m_StringResourceBuilder.Window != null))
@@ -253,7 +253,7 @@ namespace IBR.StringResourceBuilder2011
       else if (!isGotDocument && isLostCode)
         window = lostFocus;
 
-      if ((window != null) && (window.Document != null) && (window.Caption.EndsWith(".cs") || window.Caption.EndsWith(".vb")))
+      if ((window != null) && (window.Document != null) && (window.Caption.EndsWith(".cs") || window.Caption.EndsWith(".vb") || window.Caption.Trim().EndsWith(".sql")))
       {
         TextDocument txtDoc = window.Document.Object("TextDocument") as TextDocument;
         if (txtDoc != null)
@@ -339,6 +339,17 @@ namespace IBR.StringResourceBuilder2011
       if (m_NextButton     != null) m_NextButton.Enabled     = !isLast;
       if (m_MakeButton     != null) m_MakeButton.Enabled     = !isEmpty;
       if (m_MakeAllButton     != null) m_MakeAllButton.Enabled     = !isEmpty;
+
+      if (m_StringResourceBuilder.IsSqlFile())
+      {
+        IsAttributCol.Visibility = Visibility.Hidden;
+        SkipAsAtText.Text = "Ignore";
+      }
+      else
+      {
+        IsAttributCol.Visibility = Visibility.Visible;
+        SkipAsAtText.Text = "Set @|";
+      }
     }
 
     private void Cleanup()
@@ -554,6 +565,7 @@ namespace IBR.StringResourceBuilder2011
 
     internal void DoRescan()
     {
+      SetEnabled();
       m_StringResourceBuilder.DoBrowse();
     }
 

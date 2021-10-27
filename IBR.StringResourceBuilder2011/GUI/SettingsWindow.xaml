@@ -10,7 +10,7 @@
         Title="String Resource Builder Settings"
         WindowStartupLocation="CenterScreen"
         MinWidth="650"
-        MinHeight="376"
+        MinHeight="386"
         d:DesignWidth="650"
         d:DesignHeight="376"
         SizeToContent="WidthAndHeight">
@@ -79,7 +79,12 @@
           </GroupBox>
           <GroupBox Grid.Row="1" Margin="2" Header="Other Options">
             <StackPanel Margin="2,8,2,2">
-              <CheckBox Margin="0,-5,0,4" Name="cbUseGlobalResourceFile">
+				<StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+					<TextBlock VerticalAlignment="Center" Text="SQL resources file:" FontFamily="Consolas, Courier New" Margin="0,1,0,0" />
+					<TextBox MinWidth="500" Margin="4,2,0,2" VerticalAlignment="Center" Name="sqlResPath"
+                     FontFamily="Consolas, Courier New" />
+				</StackPanel>
+				<CheckBox Margin="0,-5,0,4" Name="cbUseGlobalResourceFile">
                 <StackPanel Orientation="Horizontal">
                   <TextBlock VerticalAlignment="Center" Text="Use global resource file" />
                   <TextBox MinWidth="20" Margin="4,2,0,2" VerticalAlignment="Center" Name="txtGlobalResourceFileName"
@@ -88,7 +93,7 @@
                   <TextBlock VerticalAlignment="Center" Text=" (leave blank for the standard global resource file)" />
                 </StackPanel>
               </CheckBox>
-              <CheckBox Margin="20,0,0,8" Name="cbDontUseResourceAlias" IsEnabled="{Binding ElementName=cbUseGlobalResourceFile, Path=IsChecked}">
+                <CheckBox Margin="20,0,0,8" Name="cbDontUseResourceAlias" IsEnabled="{Binding ElementName=cbUseGlobalResourceFile, Path=IsChecked}">
                 <StackPanel Orientation="Horizontal">
                   <TextBlock VerticalAlignment="Center" Text="Don't use resource alias like  " />
                   <TextBlock VerticalAlignment="Center" Text="using SRB_Strings_Res = ...;" FontFamily="Consolas, Courier New" Margin="0,1,0,0" />

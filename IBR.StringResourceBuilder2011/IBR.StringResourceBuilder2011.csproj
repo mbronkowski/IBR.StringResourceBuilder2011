@@ -73,6 +73,7 @@
     <Compile Include="Modules\clsExtensionMethods.cs" />
     <Compile Include="Modules\clsParser.cs" />
     <Compile Include="Modules\clsSettings.cs" />
+    <Compile Include="Modules\clsSqlPhrase.cs" />
     <Compile Include="Modules\clsStringResource.cs" />
     <Compile Include="Modules\clsStringResourceBuilder.cs" />
     <Compile Include="Modules\clsUtil.cs" />

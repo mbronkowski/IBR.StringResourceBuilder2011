@@ -6,8 +6,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-
-
 namespace IBR.StringResourceBuilder2011
 {
   [Serializable]
@@ -112,14 +110,13 @@ namespace IBR.StringResourceBuilder2011
     private string _aiProcessPath =@"\\qnap\aplication\CultureTranslatorHelper\AI\IBR.StringResourceBuilder2011ML.ConsoleApp.exe";
     private string _aiWorkFolder = @"C:\TranslateAI\";
     private decimal _aiMinimumPrecision = 90;
+    private string _sqlResPath = @"Ps.Slk.SqlTranslation\Properties\Resources.resx";
 
     public List<string> IgnoreMethodsArguments
     {
       get { return (m_IgnoreMethodsArguments); }
       set { m_IgnoreMethodsArguments = value; }
     }
-
-    
 
     public bool AiSugestions
     {
@@ -131,6 +128,12 @@ namespace IBR.StringResourceBuilder2011
     {
         get => _aiProcessPath;
         set => _aiProcessPath = value;
+    }
+
+    public string SqlResPath
+    {
+        get => _sqlResPath;
+        set => _sqlResPath = value;
     }
 
     public string AiWorkFolder

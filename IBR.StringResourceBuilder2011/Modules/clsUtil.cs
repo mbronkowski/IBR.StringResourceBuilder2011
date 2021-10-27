@@ -159,5 +159,5 @@ namespace IBR.StringResourceBuilder2011
     }
 
     #endregion //Public methods --------------------------------------------------------------------
-  } //class
+    } //class
 } //namespace

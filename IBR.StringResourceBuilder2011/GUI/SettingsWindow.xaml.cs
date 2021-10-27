@@ -42,6 +42,7 @@ namespace IBR.StringResourceBuilder2011.GUI
       this.aiProcessPath.Text = m_Settings.AiProcessPath;
       this.aiWorkFolder.Text = m_Settings.AiWorkFolder;
       this.aiMinimumPrecision.Value = m_Settings.AiMinimumPrecision;
+      this.sqlResPath.Text = m_Settings.SqlResPath;
 
       this.lstIgnoreStrings.Items    = m_Settings.IgnoreStrings;
       this.lstIgnoreSubStrings.Items = m_Settings.IgnoreSubStrings;
@@ -106,6 +107,18 @@ namespace IBR.StringResourceBuilder2011.GUI
         } //if 
       } //if
 
+      if (!string.IsNullOrWhiteSpace(this.sqlResPath.Text) && this.sqlResPath.Text.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) >= 0)
+      {
+          MessageBox.Show("The SQL resource file name contains at least one illegal charter.",
+                          "Settings", MessageBoxButton.OK, MessageBoxImage.Error);
+      
+          if (!this.tabiOptions.IsSelected)
+          this.tabiOptions.IsSelected = true;
+      
+          this.sqlResPath.Focus();
+          return;
+      } //if 
+
       if (m_Settings == null)
         m_Settings = new Settings();
 
@@ -130,6 +143,8 @@ namespace IBR.StringResourceBuilder2011.GUI
       m_Settings.IgnoreMethods.AddRange(this.lstIgnoreMethods.Items);
       m_Settings.IgnoreMethodsArguments.Clear();
       m_Settings.IgnoreMethodsArguments.AddRange(this.lstIgnoreArguments.Items);
+      m_Settings.SqlResPath = (this.sqlResPath.Text ?? string.Empty).Trim();
+        
 
       this.DialogResult = true;
       this.Close();

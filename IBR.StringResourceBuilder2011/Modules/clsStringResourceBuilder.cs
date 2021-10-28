@@ -1479,7 +1479,7 @@ namespace IBR.StringResourceBuilder2011.Modules
             SelectStringInTextDocument();
 
             ProjectItem resourceFilePrjItem;
-            if (IsSqlFile(m_FocusedTextDocumentWindow))
+            if (IsSqlLanguage(m_Window.Document))
             {
                 resourceFilePrjItem = OpenOrCreateSqlResourceFile();
 
@@ -1529,22 +1529,13 @@ namespace IBR.StringResourceBuilder2011.Modules
                 new Action(delegate { }));
             SelectStringInTextDocument();
 
-            ProjectItem resourceFilePrjItem;
-
-            var sqlFile = IsSqlFile(m_FocusedTextDocumentWindow);
-            if (sqlFile)
-            {
-                resourceFilePrjItem = OpenOrCreateSqlResourceFile();
-            }
-            else
-            {
-                resourceFilePrjItem = OpenOrCreateResourceFile();
-            }
+            var sqlFile = IsSqlLanguage(m_Window.Document);
             while (m_StringResources.Count > 0)
             {
                 var startCount = m_StringResources.Count;
                 if (sqlFile)
                 {
+                    ProjectItem resourceFilePrjItem = OpenOrCreateSqlResourceFile();
                     if (resourceFilePrjItem == null)
                         return;
                     SelectStringInTextDocument();
@@ -1552,6 +1543,7 @@ namespace IBR.StringResourceBuilder2011.Modules
                 }
                 else
                 {
+                    ProjectItem resourceFilePrjItem = OpenOrCreateResourceFile();
                     if (resourceFilePrjItem == null)
                         return;
                     SelectStringInTextDocument();

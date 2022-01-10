@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Name="SRB"
-             Background="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowBackgroundKey}}"
+             Background="{DynamicResource VsBrushes.ToolWindowBackgroundKey}"
              IsVisibleChanged="StringResBuilderWindow_IsVisibleChanged">
   
   <UserControl.Resources>
@@ -25,26 +25,26 @@
       <Setter Property="RowHeaderWidth" Value="0"/>
       <Setter Property="SelectionMode" Value="Single"/>
       <Setter Property="SelectionUnit" Value="Cell"/>
-      <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
-      <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
-      <Setter Property="RowBackground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
-      <Setter Property="AlternatingRowBackground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ComboBoxDisabledBackgroundBrushKey}}"/>
+      <Setter Property="Foreground" Value="{DynamicResource EnvironmentColors.ToolWindowTextBrushKey}"/>
+      <Setter Property="Background" Value="{DynamicResource EnvironmentColors.ToolWindowBackgroundBrushKey}"/>
+      <Setter Property="RowBackground" Value="{DynamicResource EnvironmentColors.ToolWindowBackgroundBrushKey}"/>
+      <Setter Property="AlternatingRowBackground" Value="{DynamicResource EnvironmentColors.ComboBoxDisabledBackgroundBrushKey}"/>
     
       <Setter Property="AlternationCount" Value="2"/>
-      <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.TaskListGridLinesBrushKey}}"/>
-      <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.TaskListGridLinesBrushKey}}"/>
+      <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource EnvironmentColors.TaskListGridLinesBrushKey}"/>
+      <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource EnvironmentColors.TaskListGridLinesBrushKey}"/>
       <!--<Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>-->
     </Style>
     <Style TargetType="DataGridColumnHeader">
        
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
-        <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource EnvironmentColors.ToolWindowTextBrushKey}"/>
+        <Setter Property="Background" Value="{DynamicResource EnvironmentColors.ToolWindowBackgroundBrushKey}"/>
        
     </Style>
     <Style TargetType="TextBox">
        
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
-        <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource EnvironmentColors.ToolWindowTextBrushKey}"/>
+        <Setter Property="Background" Value="{DynamicResource EnvironmentColors.ToolWindowBackgroundBrushKey}"/>
         <Setter Property="BorderThickness" Value="0"/>
        
     </Style>
@@ -52,8 +52,8 @@
     <Style x:Key="CellStyle" TargetType="{x:Type DataGridCell}">
       <Style.Triggers>
         <Trigger Property="IsSelected" Value="True">
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
-            <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ComboBoxFocusedBackgroundBrushKey}}" />
+            <Setter Property="Foreground" Value="{DynamicResource EnvironmentColors.ToolWindowTextBrushKey}"/>
+            <Setter Property="Background" Value="{DynamicResource EnvironmentColors.ComboBoxFocusedBackgroundBrushKey}" />
         </Trigger>
       </Style.Triggers>
     </Style>
@@ -69,7 +69,7 @@
     </Style>
     <!--StatusBar-->
     <Style TargetType="StatusBar">
-      <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+      <Setter Property="Background" Value="{DynamicResource EnvironmentColors.ToolWindowBackgroundBrushKey}"/>
       <Setter Property="VerticalContentAlignment" Value="Bottom"/>
     </Style>
   </UserControl.Resources>
@@ -159,9 +159,9 @@
         <TextBox> AI Status:</TextBox>
     </StatusBarItem>
         <StatusBarItem>
-            <Button Width="20" Height="20" Foreground="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}" Background="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
+            <Button Width="20" Height="20" Foreground="{DynamicResource EnvironmentColors.ToolWindowTextBrushKey}" Background="{DynamicResource EnvironmentColors.ToolWindowBackgroundBrushKey}"
                     Click="RefreshAIButton_OnClick">
-                <Path Width="15" Height="15" Canvas.Left="20.5833" Canvas.Top="17.4167" Stretch="Fill" Fill="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}" Data="F1 M 38,20.5833C 42.9908,20.5833 47.4912,22.6825 50.6667,26.046L 50.6667,17.4167L 55.4166,22.1667L 55.4167,34.8333L 42.75,34.8333L 38,30.0833L 46.8512,30.0833C 44.6768,27.6539 41.517,26.125 38,26.125C 31.9785,26.125 27.0037,30.6068 26.2296,36.4167L 20.6543,36.4167C 21.4543,27.5397 28.9148,20.5833 38,20.5833 Z M 38,49.875C 44.0215,49.875 48.9963,45.3932 49.7703,39.5833L 55.3457,39.5833C 54.5457,48.4603 47.0852,55.4167 38,55.4167C 33.0092,55.4167 28.5088,53.3175 25.3333,49.954L 25.3333,58.5833L 20.5833,53.8333L 20.5833,41.1667L 33.25,41.1667L 38,45.9167L 29.1487,45.9167C 31.3231,48.3461 34.483,49.875 38,49.875 Z "/>
+                <Path Width="15" Height="15" Canvas.Left="20.5833" Canvas.Top="17.4167" Stretch="Fill" Fill="{DynamicResource EnvironmentColors.ToolWindowTextBrushKey}" Data="F1 M 38,20.5833C 42.9908,20.5833 47.4912,22.6825 50.6667,26.046L 50.6667,17.4167L 55.4166,22.1667L 55.4167,34.8333L 42.75,34.8333L 38,30.0833L 46.8512,30.0833C 44.6768,27.6539 41.517,26.125 38,26.125C 31.9785,26.125 27.0037,30.6068 26.2296,36.4167L 20.6543,36.4167C 21.4543,27.5397 28.9148,20.5833 38,20.5833 Z M 38,49.875C 44.0215,49.875 48.9963,45.3932 49.7703,39.5833L 55.3457,39.5833C 54.5457,48.4603 47.0852,55.4167 38,55.4167C 33.0092,55.4167 28.5088,53.3175 25.3333,49.954L 25.3333,58.5833L 20.5833,53.8333L 20.5833,41.1667L 33.25,41.1667L 38,45.9167L 29.1487,45.9167C 31.3231,48.3461 34.483,49.875 38,49.875 Z "/>
             </Button>
         </StatusBarItem>
     <StatusBarItem>
